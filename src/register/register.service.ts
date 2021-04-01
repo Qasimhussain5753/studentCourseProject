@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {ConflictException, HttpException, HttpStatus, Injectable, InternalServerErrorException} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Register } from './register.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -33,16 +33,24 @@ export class RegisterService {
     //     }
     //   }
     // }
-    if (register.length > 5) {
-      return { message: 'student can register only 6 courses' };
-    } else if (register.length <= 6) {
-      const registerCourses = await this.registoryRepository.create(data);
-      await this.registoryRepository.save(registerCourses);
-      const createData = {
-        ...registerCourses,
-        message: 'Register Successfully',
-      };
-      return createData;
+    try {
+      if (register.length > 5) {
+        return { message: 'student can register only 6 courses' };
+      } else if (register.length <= 6) {
+        const registerCourses = await this.registoryRepository.create(data);
+        await this.registoryRepository.save(registerCourses);
+        const createData = {
+          ...registerCourses,
+          message: 'Register Successfully',
+        };
+        return createData;
+      }
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException('Student cannot register twice a course');
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
   }
 
