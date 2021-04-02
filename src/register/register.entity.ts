@@ -1,12 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-import {Optional} from "@nestjs/common";
+import { Optional } from '@nestjs/common';
 
 @Entity('register')
-@Unique(['courseID'])
 export class Register {
   @PrimaryGeneratedColumn()
-  id:number;
+  id: number;
+  @Column()
   studentID: number;
-  @Column({ type: 'numeric' })
+  @Column()
   courseID: number;
 }

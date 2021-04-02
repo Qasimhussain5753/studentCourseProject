@@ -1,7 +1,7 @@
 import { IsNumber } from 'class-validator';
 
 export class RegisterDto {
-  id: number;
+  id:number;
   studentID: number;
   courseID: number;
 }

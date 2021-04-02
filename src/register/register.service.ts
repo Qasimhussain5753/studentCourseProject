@@ -1,9 +1,15 @@
-import {ConflictException, HttpException, HttpStatus, Injectable, InternalServerErrorException} from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Register } from './register.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterDto } from './register.dto';
 import { Courses } from '../courses/course.entity';
+import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class RegisterService {
@@ -22,21 +28,31 @@ export class RegisterService {
     const { studentID, courseID } = data;
     const register = await this.registoryRepository.find();
     const course = await this.courseRepository.find();
-    // for (const key in course) {
-    //   if (course[key].id === id) {
-    //     if (studentlimit > course[key].studentlimits) {
-    //       const data = {
-    //         ...course[key],
-    //         message: 'Student Limit is reached',
-    //       };
-    //       return data;
-    //     }
-    //   }
-    // }
-    try {
-      if (register.length > 5) {
-        return { message: 'student can register only 6 courses' };
-      } else if (register.length <= 6) {
+    const studentLimit = register.filter(
+      (item) => item.studentID === studentID,
+    );
+
+    for (const key in course) {
+      const courseLimit = register.filter((item) => item.courseID === courseID);
+      console.log('for loop', course[key].id);
+      if (course[key].id === courseID) {
+        if (courseLimit.length > course[key].studentlimits) {
+          const data = {
+            ...course[key],
+            message: 'Student Limit is reached',
+          };
+          return data;
+        }
+      }
+    }
+    if (studentLimit.length > 5) {
+      throw new ConflictException('student can register only 6 courses');
+    } else {
+      if (studentLimit.find((item) => item.courseID === courseID)) {
+        throw new ConflictException(
+          'Student can not register same course more than twice!',
+        );
+      } else {
         const registerCourses = await this.registoryRepository.create(data);
         await this.registoryRepository.save(registerCourses);
         const createData = {
@@ -44,12 +60,6 @@ export class RegisterService {
           message: 'Register Successfully',
         };
         return createData;
-      }
-    } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException('Student cannot register twice a course');
-      } else {
-        throw new InternalServerErrorException();
       }
     }
   }
@@ -72,6 +82,7 @@ export class RegisterService {
     if (!registerCourse) {
       throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
     } else if (registerCourse) {
+      const deleteData = await this.registoryRepository.delete(id);
       const data = {
         ...registerCourse,
         message: 'Data deleted successfully',
