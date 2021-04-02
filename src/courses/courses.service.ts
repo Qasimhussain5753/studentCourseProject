@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Courses } from './course.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,9 +22,23 @@ export class CoursesService {
   }
 
   async create(data: CoursesDto) {
-    const course = await this.courseRepository.create(data);
-    await this.courseRepository.save(course);
-    return course;
+    try {
+      const course = await this.courseRepository.create(data);
+      const saveCourse = await this.courseRepository.save(course);
+      if (saveCourse) {
+        const data = {
+          ...course,
+          message: 'Data created successfully',
+        };
+        return data;
+      }
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException('course_name can not be duplicate ');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async read(id: string) {
@@ -30,19 +50,38 @@ export class CoursesService {
   }
 
   async update(id: string, data: Partial<CoursesDto>) {
-    const course = await this.courseRepository.findOne({ where: { id } });
-    if (!course) {
-      throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
+    try {
+      const course = await this.courseRepository.findOne({ where: { id } });
+      if (!course) {
+        throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
+      } else if (course) {
+        await this.courseRepository.update(id, data);
+        const courseData = await this.courseRepository.findOne(id);
+        const response = {
+          ...courseData,
+          message: 'Data updated sucessfully',
+        };
+        return response;
+      }
+    } catch (err) {
+      if (err.code === '23505') {
+        throw new ConflictException('Data already found');
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
-    await this.courseRepository.update(id, data);
-    return await this.courseRepository.findOne(id);
   }
   async delete(id: string) {
     const course = await this.courseRepository.findOne({ where: { id } });
     if (!course) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
+    } else if (course) {
+      await this.courseRepository.delete(id);
+      const data = {
+        ...course,
+        message: 'Data deleted successfully',
+      };
+      return data;
     }
-    await this.courseRepository.delete(id);
-    return course;
   }
 }

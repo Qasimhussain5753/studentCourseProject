@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Student } from './student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,14 +22,21 @@ export class StudentService {
   }
 
   async create(data: StudentDto) {
-    const student = await this.studentRepository.create(data);
-    const res = await this.studentRepository.save(student);
-    if (res) {
-      const data = {
-        ...student,
-        message: 'Data Added successfully!',
-      };
-      return data;
+    try {
+      const student = await this.studentRepository.create(data);
+      const res = await this.studentRepository.save(student);
+      if (res) {
+        return {
+          message: 'Data Added successfully!',
+          data: student,
+        };
+      }
+    } catch (err) {
+      if (err.code === '23505') {
+        throw new ConflictException(err.detail);
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
   }
 
@@ -36,18 +49,25 @@ export class StudentService {
   }
 
   async update(id: string, data: Partial<StudentDto>) {
-    const student = await this.studentRepository.findOne({ where: { id } });
-    if (!student) {
-      throw new HttpException('STUDENT NOT FOUND', HttpStatus.NOT_FOUND);
-    }
-    const res = await this.studentRepository.update(id, data);
-    if (res) {
-      const updateData = await this.studentRepository.findOne(id);
-      const data = {
-        ...updateData,
-        message: 'updated successfully',
-      };
-      return data;
+    try {
+      const student = await this.studentRepository.findOne({ where: { id } });
+      if (!student) {
+        throw new HttpException('STUDENT NOT FOUND', HttpStatus.NOT_FOUND);
+      }
+      const res = await this.studentRepository.update(id, data);
+      if (res) {
+        const updateData = await this.studentRepository.findOne(id);
+        return {
+          message: 'updated successfully',
+          data: updateData,
+        };
+      }
+    } catch (err) {
+      if (err.status === 404) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      } else {
+        throw new InternalServerErrorException();
+      }
     }
   }
   async delete(id: string) {

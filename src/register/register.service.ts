@@ -34,7 +34,6 @@ export class RegisterService {
 
     for (const key in course) {
       const courseLimit = register.filter((item) => item.courseID === courseID);
-      console.log('for loop', course[key].id);
       if (course[key].id === courseID) {
         if (courseLimit.length > course[key].studentlimits) {
           const data = {
@@ -55,39 +54,44 @@ export class RegisterService {
       } else {
         const registerCourses = await this.registoryRepository.create(data);
         await this.registoryRepository.save(registerCourses);
-        const createData = {
-          ...registerCourses,
+        return {
           message: 'Register Successfully',
+          data: registerCourses,
         };
-        return createData;
       }
     }
   }
 
-  async update(id: string) {
-    const registerCourse = this.registoryRepository.findOne(id);
-    if (!registerCourse) {
-      throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
-    } else if (registerCourse) {
-      const data = {
-        ...registerCourse,
-        message: 'Data updated Successfully!',
-      };
-      return data;
+  async update(id: string, data: Partial<RegisterDto>) {
+    try {
+      const registerCourse = this.registoryRepository.findOne({
+        where: { id },
+      });
+      if (!registerCourse) {
+        throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
+      } else if (registerCourse) {
+        await this.registoryRepository.update(id, data);
+        const response = await this.registoryRepository.findOne(id);
+        return {
+          message: 'Data updated Successfully!',
+          data: response,
+        };
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
   async delete(id: string) {
-    const registerCourse = this.registoryRepository.findOne(id);
+  const registerCourse =await this.registoryRepository.findOne({ where: { id } });
     if (!registerCourse) {
       throw new HttpException('Data not found', HttpStatus.NOT_FOUND);
     } else if (registerCourse) {
       const deleteData = await this.registoryRepository.delete(id);
-      const data = {
-        ...registerCourse,
+      return {
         message: 'Data deleted successfully',
+        data: registerCourse,
       };
-      return data;
     }
   }
 

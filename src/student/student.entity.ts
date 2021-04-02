@@ -2,7 +2,9 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Optional } from '@nestjs/common';
 
 @Entity('student')
-@Unique(['user_name', 'email', 'phone'])
+@Unique(['user_name'])
+@Unique(['email'])
+@Unique(['phone'])
 export class Student {
   @PrimaryGeneratedColumn()
   id: number;

@@ -19,12 +19,17 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7dd9e70c-d9c5-46f4-a184-7ac9ba866dfc" name="Default Changelist" comment="updated">
+    <list default="true" id="7dd9e70c-d9c5-46f4-a184-7ac9ba866dfc" name="Default Changelist" comment="registration updated">
+      <change afterPath="$PROJECT_DIR$/uploads/IMG_7880.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/uploads/error.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/register/register.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/register/register.dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/register/register.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/register/register.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/courses/course.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/courses/course.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/courses/courses.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/courses/courses.dto.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/courses/courses.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/courses/courses.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/register/register.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/register/register.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/register/register.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/register/register.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/student/student.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/student/student.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/student/student.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/student/student.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +78,7 @@
       <workItem from="1617264227327" duration="1678000" />
       <workItem from="1617270247728" duration="18000" />
       <workItem from="1617271076290" duration="12006000" />
+      <workItem from="1617339691064" duration="6067000" />
     </task>
     <task id="LOCAL-00001">
       <created>1617265875234</created>
@@ -95,7 +101,21 @@
       <option name="project" value="LOCAL" />
       <updated>1617271598624</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="registration updated">
+      <created>1617339838682</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1617339838682</updated>
+    </task>
+    <task id="LOCAL-00005" summary="registration updated">
+      <created>1617339850895</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1617339850895</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,7 +137,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="initial commit" />
     <MESSAGE value="updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated" />
+    <MESSAGE value="registration updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="registration updated" />
   </component>
   <component name="WindowStateProjectService">
     <state x="609" y="242" width="633" height="533" key="#ESLint" timestamp="1617270087848">
@@ -156,10 +177,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1617271378282" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1617271605839">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1617339869635">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1617271605839" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1617339869635" />
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1617344232126">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1617344232126" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1617276754253">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
