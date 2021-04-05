@@ -9,17 +9,11 @@ import { StudentModule } from './student/student.module';
 import { HttpErrors } from './shared/http.errors';
 import { RegisterModule } from './register/register.module';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseConnectionService } from './database.connection.service';
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    // TypeOrmModule.forRoot(config),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      synchronize: true,
-      autoLoadEntities: true,
-      entities: ['dist/**/*.entity{.ts,.js}'],
-    }),
+    // ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot(config),
     CoursesModule,
     StudentModule,
     RegisterModule,

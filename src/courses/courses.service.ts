@@ -18,6 +18,11 @@ export class CoursesService {
   ) {}
 
   async showAll() {
+    console.log(
+      process.env.DATABASE_DB,
+      process.env.DATABASE_PASSWORD,
+      process.env.database_host,
+    );
     return await this.courseRepository.find();
   }
 

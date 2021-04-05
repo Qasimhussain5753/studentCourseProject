@@ -4,7 +4,7 @@ import {
   IsString,
   Matches,
   IsOptional,
-    ArrayUnique
+  ArrayUnique,
 } from 'class-validator';
 
 export class StudentDto {
